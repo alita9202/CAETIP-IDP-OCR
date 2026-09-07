@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LogOut, Menu, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export interface NavItem {
   label: string;
@@ -17,8 +18,10 @@ interface SidebarProps {
 export default function Sidebar({ items, rolLabel }: SidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     navigate('/login');
   };
 
