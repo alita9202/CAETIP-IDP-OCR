@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext';
 import { RequireAuth, RequireRole, RedirectIfAuthenticated } from './guards';
 import LoginPage from '../modules/auth/LoginPage';
+import ActivarCuentaPage from '../modules/auth/ActivarCuentaPage';
 import ParticipantLayout from '../layouts/ParticipantLayout';
 import EncargadoLayout from '../layouts/EncargadoLayout';
 import AdminLayout from '../layouts/AdminLayout';
@@ -25,6 +26,8 @@ export default function AppRouter() {
               <LoginPage />
             </RedirectIfAuthenticated>
           } />
+          
+          <Route path="/auth/activar-cuenta" element={<ActivarCuentaPage />} />
 
           {/* Participante */}
           <Route path="/participante" element={

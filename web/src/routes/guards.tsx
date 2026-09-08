@@ -28,6 +28,10 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
     return <ErrorScreen message={perfilError || 'No se pudo cargar el perfil del usuario.'} />;
   }
 
+  if (perfil.estado === 'PENDIENTE') {
+    return <Navigate to="/auth/activar-cuenta" replace />;
+  }
+
   if (perfil.estado !== 'ACTIVO') {
     return <InactiveScreen estado={perfil.estado} />;
   }
@@ -61,9 +65,14 @@ export function RedirectIfAuthenticated({ children }: { children: React.ReactNod
     return <LoadingScreen />;
   }
 
-  if (session && perfil && perfil.estado === 'ACTIVO') {
-    const home = ROLE_HOME[perfil.rol_codigo] || '/login';
-    return <Navigate to={home} replace />;
+  if (session && perfil) {
+    if (perfil.estado === 'PENDIENTE') {
+      return <Navigate to="/auth/activar-cuenta" replace />;
+    }
+    if (perfil.estado === 'ACTIVO') {
+      const home = ROLE_HOME[perfil.rol_codigo] || '/login';
+      return <Navigate to={home} replace />;
+    }
   }
 
   return <>{children}</>;
